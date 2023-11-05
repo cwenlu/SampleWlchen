@@ -1,21 +1,17 @@
+# 直接定义插件
+https://docs.gradle.org/current/userguide/custom_plugins.html#behind_the_scenes
+
+### 插件使用
+
+```agsl
+//将发布的插件路径添加到插件管理中
 //https://docs.gradle.org/current/userguide/plugins.html#sec:plugin_version_management
 pluginManagement {
     repositories {
-        //将自己定义的插件仓库放前面优先从这里找
         maven {
             url = uri("${rootDir}/maven-repo")
         }
-        google()
-        mavenCentral()
-        gradlePluginPortal()
     }
-
-    plugins {
-        //https://docs.gradle.org/current/javadoc/org/gradle/plugin/use/PluginDependencySpec.html#apply-boolean-
-        //apply(false)指定先不应用只是包含进来,
-        id("com.wlchen.sample1") version ("1.0.0") apply (false)
-    }
-
     //https://docs.gradle.org/current/userguide/plugins.html#sec:plugin_resolution_rules
     resolutionStrategy {
         eachPlugin {
@@ -27,16 +23,5 @@ pluginManagement {
         }
     }
 }
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
+```
 
-rootProject.name = "Sample-wlchen"
-include(":app")
-include(":asm-sample")
-include(":plugin-sample:sample1")
-include(":plugin-sample:sample2")

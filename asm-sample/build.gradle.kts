@@ -1,5 +1,3 @@
-import com.google.wireless.android.sdk.stats.GradleBuildVariant.KotlinOptions
-
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     id("java-library")
@@ -12,7 +10,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class){
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class) {
     kotlinOptions.jvmTarget = "1.8"
 }
 
