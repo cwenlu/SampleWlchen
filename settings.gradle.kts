@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Sample@wlchen"
 include(":app")
- 
+include(":asm-sample")
