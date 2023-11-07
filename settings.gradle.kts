@@ -1,5 +1,7 @@
 //https://docs.gradle.org/current/userguide/plugins.html#sec:plugin_version_management
 pluginManagement {
+    //https://docs.gradle.org/current/userguide/composite_builds.html
+    includeBuild("plugin-project")
     repositories {
         //将自己定义的插件仓库放前面优先从这里找
         maven {
