@@ -11,7 +11,9 @@ plugins {
 //}
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    //implementation(kotlin("stdlib"))
+    //创建对当前版本的 Gradle Kotlin DSL 的 API 的依赖关系。 包括 Kotlin 和 Gradle API
+    implementation(gradleKotlinDsl())
     implementation(libs.ow2.asm)
     implementation(libs.asm.commons)
     implementation(libs.asm.util)
@@ -24,9 +26,9 @@ gradlePlugin {
     plugins {
         //生成规则 id:id.gradle.plugin:version
         //如我们这: com.wlchen.sample1:com.wlchen.sample1.gradle.plugin:1.0.0
-        create("sample1") {
-            id = "com.wlchen.sample"
-            implementationClass = "com.wlchen.sample.SamplePlugin1"
+        create("sample") {
+            id = "com.wlchen.extension"
+            implementationClass = "com.wlchen.sample.ExtensionPlugin"
         }
     }
 }
