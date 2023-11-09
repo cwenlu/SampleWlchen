@@ -3,9 +3,8 @@ plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
 
-    id("com.wlchen.extension")
+    id("com.wlchen.sample")
 }
-apply(from = "simple.gradle.kts")
 
 android {
     namespace = "com.wlchen.use_plugin"
@@ -48,4 +47,3 @@ extension {
     message = "sda"
     lazyMessage.set("daa")
 }
-

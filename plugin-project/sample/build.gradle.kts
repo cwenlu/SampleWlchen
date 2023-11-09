@@ -27,8 +27,8 @@ gradlePlugin {
         //生成规则 id:id.gradle.plugin:version
         //如我们这: com.wlchen.sample1:com.wlchen.sample1.gradle.plugin:1.0.0
         create("sample") {
-            id = "com.wlchen.extension"
-            implementationClass = "com.wlchen.sample.ExtensionPlugin"
+            id = "com.wlchen.sample"
+            implementationClass = "com.wlchen.sample.SamplePlugin"
         }
     }
 }

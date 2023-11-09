@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "plugin-project"
 include(":sample")
+include(":task")
