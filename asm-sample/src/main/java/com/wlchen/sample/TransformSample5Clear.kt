@@ -40,7 +40,7 @@ class MethodClearVisitor(cw: ClassVisitor) : ClassVisitor(Opcodes.ASM9, cw) {
         //就简单判断Sample5 中的方法名
         if (mv != null && name == "dumpFun") {
             generateMethodBody(mv, access, descriptor)
-            //返回null相当于原来的方法体生成代码给删了
+            //返回null可以阻断后面的执行（因为这里已经生成了全新的,后面再处理没意义）。当然也可以返回mv
             return null
         }
         return mv
