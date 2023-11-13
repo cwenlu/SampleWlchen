@@ -10,7 +10,7 @@ abstract class SamplePlugin : Plugin<Project> {
         extensionTask(target)
 
         defineTask(target)
-
+        inOutTask(target)
     }
 }
 

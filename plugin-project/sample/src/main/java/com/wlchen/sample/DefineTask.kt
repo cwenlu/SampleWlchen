@@ -2,8 +2,6 @@ package com.wlchen.sample
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.existing
-import org.gradle.kotlin.dsl.provideDelegate
 import javax.inject.Inject
 
 /**
