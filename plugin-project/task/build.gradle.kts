@@ -29,7 +29,7 @@ project(":task") {
 //******************************************
 //对task指定排序规则 gradle -q taskY taskX
 //https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:ordering_tasks
-//mustRunAfter，shouldRunAfter只能改变现有Task的顺序，不能触发它们的创建
+//mustRunAfter，shouldRunAfter只是确定Task的顺序，不能触发它们的创建。只是两个都要执行时规定他们的顺序
 //taskX和taskY同时执行的时候必须保证taskY在taskX后
 //可以在gradle任务中选中多个task一起执行，按选的先后顺序执行(可以看出排序对任务的作用)
 val taskX by tasks.registering {
@@ -53,6 +53,7 @@ taskY {
 //跳过task ./gradlew :task:skipTask -Pskip
 //https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:skipping_tasks
 task("taskSkipDirect") {
+    group = "sample"
     //当前版本还不支持？
     //timeout = Duration.ofMillis(500)
     doFirst {
@@ -89,6 +90,7 @@ tasks.addRule("Pattern: ping<ID>") {
     val taskName = this
     if (startsWith("ping")) {
         task(taskName) {
+            group = "sample"
             doLast {
                 println("Pinging: " + (taskName.replace("ping", "")))
             }
@@ -98,6 +100,7 @@ tasks.addRule("Pattern: ping<ID>") {
 
 //配置了一组ping task
 tasks.register("groupPing") {
+    group = "sample"
     dependsOn("pingServer1", "pingServer2")
 }
 
@@ -105,17 +108,19 @@ tasks.register("groupPing") {
 //******************************************
 //https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:finalizer_tasks
 //dependsOn，finalizedBy 这将强制执行引用的Task
-val taskA by tasks.registering {
+val task1 by tasks.registering {
+    group = "sample"
     doLast {
-        println("taskA")
+        println("task1")
         //即使这个失败了，finalizedBy指定的还是会执行
         //throw RuntimeException()
     }
 }
-val taskB by tasks.registering {
+val task2 by tasks.registering {
+    group = "sample"
     doLast {
-        println("taskB")
+        println("task2")
     }
 }
 
-taskB { finalizedBy(taskA) }
+task2 { finalizedBy(task1) }

@@ -1,3 +1,4 @@
+- [官方例子](https://github.com/gradle/gradle/tree/2f124e3a80982fa956b8d18ad2618e96046faadf/subprojects/docs/src/snippets/tasks)
 - [构建的生命周期](./src/main/java/com/wlchen/sample/LifcycleTask.kt)
 ![lifcycle.png](lifcycle.png)
 - [task的输入和输出](./src/main/java/com/wlchen/sample/InOutTask.kt)

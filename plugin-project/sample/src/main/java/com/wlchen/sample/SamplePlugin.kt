@@ -11,6 +11,7 @@ abstract class SamplePlugin : Plugin<Project> {
 
         defineTask(target)
         inOutTask(target)
+        incrementTask(target)
     }
 }
 
