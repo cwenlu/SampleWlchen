@@ -28,9 +28,7 @@ fun inOutTask(target: Project) {
     }
 }
 
-/**
- * 需要注意的是如果抽象的都必须是Property 的延迟配置类型，不然会报错
- */
+
 abstract class InOutTask : DefaultTask() {
     //这个不设置会报错
     @get:Input
