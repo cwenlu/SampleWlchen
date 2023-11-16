@@ -118,6 +118,10 @@ val task1 by tasks.registering {
 }
 val task2 by tasks.registering {
     group = "sample"
+
+    val property = objects.property(String::class)
+    property.convention("default value")
+
     doLast {
         println("task2")
     }

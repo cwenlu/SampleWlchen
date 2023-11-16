@@ -13,6 +13,7 @@ abstract class SamplePlugin : Plugin<Project> {
         inOutTask(target)
         incrementTask(target)
         workerApiTask(target)
+        lazyConfigTask(target)
     }
 }
 
