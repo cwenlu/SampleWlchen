@@ -40,6 +40,7 @@ dependencyResolutionManagement {
 rootProject.name = "Sample-wlchen"
 include(":app")
 include(":asm-sample")
+include(":kotlin-java-sample")
 include(":plugin-sample:sample1")
 include(":plugin-sample:sample2")
 include(":use-plugin")
