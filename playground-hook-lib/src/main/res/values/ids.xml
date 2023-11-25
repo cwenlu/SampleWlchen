@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="ignore_prevent_fast_click" type="id" />
+    <item name="last_click_time" type="id" />
+</resources>

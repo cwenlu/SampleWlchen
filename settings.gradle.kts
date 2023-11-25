@@ -39,6 +39,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "Sample-wlchen"
 include(":app")
+include(":playground-hook-target")
+include(":playground-hook-lib")
 include(":asm-sample")
 include(":kotlin-java-sample")
 include(":plugin-sample:sample1")
