@@ -27,8 +27,22 @@ class MainActivity : AppCompatActivity() {
         })
         //模拟继承
         findViewById<Button>(R.id.btn3).setOnClickListener(Btn3ClickListener())
+        //模拟方法引用
+        findViewById<Button>(R.id.btn4).setOnClickListener(this::onClickDefine)
+        //这个逐类方式处理不到这种
+        findViewById<Button>(R.id.btn5).setOnClickListener(ClickDefine::onClickDefine)
     }
 
+    fun onClickDefine(p0: View?) {
+        println("btn4")
+    }
+
+}
+
+object ClickDefine{
+    fun onClickDefine(p0: View?) {
+        println("btn4")
+    }
 }
 
 interface CustomClickListener : OnClickListener {

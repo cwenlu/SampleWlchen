@@ -50,6 +50,11 @@ internal abstract class ViewClickClassVisitorFactory :
     }
 }
 
+/**
+ * 因为是逐类扫描处理,所以对于方法引用方式存在不能hook的漏洞
+ *
+ * [可以使用代理方法处理](https://juejin.cn/post/7127563086566785038?searchId=202311191219195B434422FB006831EE12#heading-9)
+ */
 private class ViewClickClassVisitor(
     private val nextClassVisitor: ClassVisitor
 ) : ClassNode(Opcodes.ASM9) {
@@ -101,7 +106,8 @@ private class ViewClickClassVisitor(
             val isLambda = "java/lang/invoke/LambdaMetafactory" == it.bsm.owner
             /**
              * name: onClick
-             * desc: ()Landroid/view/View$OnClickListener; 这里为啥是没有参数的方法？测试发现这里无论多少参数都不会体现
+             * desc: ()Landroid/view/View$OnClickListener; 这里为啥是没有参数的方法？
+             * 测试发现这里无论多少参数都不会体现,通过方法引用方式使用会有一个所属类的参数
              */
             isLambda && it.name == clickName && it.desc.endsWith(clickInterfaceDesc)
         }
