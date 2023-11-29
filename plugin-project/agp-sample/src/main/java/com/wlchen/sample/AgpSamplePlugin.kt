@@ -7,6 +7,7 @@ import com.android.build.api.variant.ScopedArtifacts
 import com.android.build.api.variant.Variant
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
+import com.wlchen.sample.task.GetAarTask
 import com.wlchen.sample.task.GetAllClassesTask
 import com.wlchen.sample.task.GetApksTask
 import org.gradle.api.Plugin
@@ -25,11 +26,11 @@ abstract class AgpSamplePlugin : Plugin<Project> {
             }
         }
 
-        target.plugins.withType(LibraryPlugin::class.java){
+        target.plugins.withType(LibraryPlugin::class.java) {
             val androidComponents =
                 target.extensions.getByType(AndroidComponentsExtension::class.java)
             androidComponents.onVariants {
-
+                getAarTask(target, it)
             }
         }
     }
@@ -37,7 +38,7 @@ abstract class AgpSamplePlugin : Plugin<Project> {
     //LibraryPlugin 好像不能获取到数据
     private fun getAllClassesTask(target: Project, variant: Variant) {
         val taskProvider =
-            target.tasks.register(variant.name + "GetAllClassesTask", GetAllClassesTask::class.java)
+            target.tasks.register(variant.name + "GetAllClasses", GetAllClassesTask::class.java)
         variant.artifacts.forScope(ScopedArtifacts.Scope.ALL)
             .use(taskProvider)
             .toGet(
@@ -51,6 +52,12 @@ abstract class AgpSamplePlugin : Plugin<Project> {
         target.tasks.register("${variant.name}GetApks", GetApksTask::class.java) {
             it.apkFolder.set(variant.artifacts.get(SingleArtifact.APK))
             it.builtArtifactsLoader.set(variant.artifacts.getBuiltArtifactsLoader())
+        }
+    }
+
+    private fun getAarTask(target: Project, variant: Variant) {
+        target.tasks.register("${variant.name}GetAar", GetAarTask::class.java) {
+            it.aar.set(variant.artifacts.get(SingleArtifact.AAR))
         }
     }
 }
