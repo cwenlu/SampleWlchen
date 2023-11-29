@@ -1,9 +1,12 @@
+import com.wlchen.sample.UseMapProperty
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
 
     id("com.wlchen.sample")
+    id("com.wlchen.agp")
 }
 
 android {
@@ -46,4 +49,10 @@ dependencies {
 extension {
     message = "sda"
     lazyMessage.set("daa")
+}
+
+//可以在这使用插件定义的task
+task<UseMapProperty>("useMapProperty-use"){
+    group = "sample"
+    properties.put("a", 1)
 }

@@ -2,14 +2,15 @@
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    id("com.wlchen.agp")
 }
 
 android {
-    namespace = "com.example.samplewlchen"
+    namespace = "com.sample.wlchen"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.samplewlchen"
+        applicationId = "com.sample.wlchen"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
@@ -37,8 +38,8 @@ android {
 }
 
 dependencies {
-
     implementation(libs.core.ktx)
+    implementation(libs.appcompat)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
