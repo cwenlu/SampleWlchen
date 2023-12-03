@@ -30,6 +30,7 @@ fun androidComponentsConfig(androidComponents: AndroidComponentsExtension<*, *, 
     androidComponents.finalizeDsl { extension ->
         extension.defaultConfig {
             minSdk = 20
+            buildConfigField("String","finalizeDslAdd","\"yes\"")
         }
         extension.buildTypes.create("extra").let {
             it.isJniDebuggable = true

@@ -4,6 +4,8 @@ import com.android.build.api.variant.Variant
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.OutputFiles
 import org.gradle.api.tasks.TaskAction
 import java.io.File
@@ -13,7 +15,8 @@ import java.io.File
  * @Date 2023/12/2 2:42 PM
  */
 abstract class AddCustomAssetTask : DefaultTask() {
-    @get:OutputFiles
+    //官方例子用的 @get:OutputFiles,但是在二次执行的时候会报错
+    @get:OutputDirectory
     abstract val outputDirectory: DirectoryProperty
 
     @TaskAction
