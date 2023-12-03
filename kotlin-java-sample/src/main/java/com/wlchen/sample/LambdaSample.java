@@ -29,7 +29,7 @@ public class LambdaSample {
         //删掉operate类型
         methodType = methodType.dropParameterTypes(0,1);
         /**
-         *  MethodHandles.Lookup caller         方法执行检查上下文
+         *  MethodHandles.Lookup caller         方法执行查找上下文
          *  String interfaceMethodName,         要实现的方法名称
          *  MethodType factoryType,             CallSite的预期签名 (String,int)Operator
          *  MethodType interfaceMethodType,     接口方法的类型
