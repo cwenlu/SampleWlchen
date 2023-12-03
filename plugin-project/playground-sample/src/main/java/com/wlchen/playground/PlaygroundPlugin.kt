@@ -20,20 +20,19 @@ abstract class PlaygroundPlugin : Plugin<Project> {
         target.plugins.withType(AppPlugin::class.java) {
             val androidComponents =
                 target.extensions.getByType(AndroidComponentsExtension::class.java)
+            //androidComponents.sdkComponents.bootClasspath
             androidComponents.onVariants {
-                handleViewClick(androidComponents.sdkComponents.bootClasspath, it)
+                handleViewClick(it)
                 it.instrumentation.setAsmFramesComputationMode(FramesComputationMode.COMPUTE_FRAMES_FOR_INSTRUMENTED_METHODS)
             }
         }
     }
 
-    private fun handleViewClick(bootClasspath: Provider<List<RegularFile>>, variant: Variant) {
+    private fun handleViewClick(variant: Variant) {
         variant.instrumentation.transformClassesWith(
             ViewClickClassVisitorFactory::class.java,
             InstrumentationScope.ALL
-        ) {
-            it.bootClasspath.set(bootClasspath)
-        }
+        ){}
     }
 
 

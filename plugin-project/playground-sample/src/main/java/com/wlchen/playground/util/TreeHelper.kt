@@ -1,5 +1,6 @@
 package com.wlchen.playground.util
 
+import org.objectweb.asm.Handle
 import org.objectweb.asm.Type
 import org.objectweb.asm.tree.ClassNode
 import org.objectweb.asm.tree.InvokeDynamicInsnNode
@@ -34,6 +35,13 @@ val MethodNode.isCinit: Boolean get() = isCinit(name)
 val MethodNode.nameWithDesc: String get() = name + desc
 
 /**
+ * 是否需要访问方法
+ *
+ * 不对抽象方法、native方法、桥接方法、合成方法进行织入
+ */
+val MethodNode.isNeedVisit: Boolean get() = isNeedVisit(access)
+
+/**
  * 是否包含某个注解,包含返回true 反之返回false
  *
  * [desc]为注解描述,[visible]表示是否运行时可见
@@ -66,11 +74,48 @@ fun MethodNode.hasTypeAnnotation(desc: String): Boolean {
 /**
  * 筛选符合条件的[InvokeDynamicInsnNode]node
  */
-fun MethodNode.filterLambda(predicate: (InvokeDynamicInsnNode) -> Boolean): List<InvokeDynamicInsnNode> {
+fun MethodNode.filterIndy(predicate: (InvokeDynamicInsnNode) -> Boolean): List<InvokeDynamicInsnNode> {
     if (instructions == null || instructions.size() == 0) {
         return emptyList()
     }
     return instructions.filterIsInstance<InvokeDynamicInsnNode>().filter(predicate)
+}
+
+/**
+ * 收集lambda方法
+ */
+fun MethodNode.collectMethodOfLambda(
+    methods: List<MethodNode>,
+    predicate: (InvokeDynamicInsnNode) -> Boolean
+): Set<MethodNode> {
+    val dynamicNodes = filterIndy {
+        /**
+         * 1.JDK 9  字符串拼接使用inDy指令;此时bsm.owner=java/lang/invoke/StringConcatFactory
+         * 2.JDK 11 动态常量使用inDy指令;此时bsm.owner=java/lang/invoke/ConstantBootstraps
+         * 3.JDK 17 switch的模式匹配使用inDy指令;此时bsm.owner=java/lang/runtime/SwitchBootstraps
+         */
+        val isLambda = "java/lang/invoke/LambdaMetafactory" == it.bsm.owner
+        /**
+         * name: onClick
+         * desc: ()Landroid/view/View$OnClickListener;
+         */
+        isLambda && predicate(it)
+    }
+    val ret = mutableSetOf<MethodNode>()
+    //BootstrapMethods:
+    //0: #43 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    //Method arguments:
+    //#32 (Landroid/view/View;)V
+    //#36 REF_invokeStatic com/example/asmtest/MainActivity."onCreate$lambda-0":(Landroid/view/View;)V
+    //#32 (Landroid/view/View;)V
+    dynamicNodes.forEach {
+        val handle = it.bsmArgs[1] as? Handle
+        if (handle != null) {
+            val nameWithDesc = handle.name + handle.desc
+            methods.filterTo(ret) { nameWithDesc == it.nameWithDesc }
+        }
+    }
+    return ret
 }
 
 

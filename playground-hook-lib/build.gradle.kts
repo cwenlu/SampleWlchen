@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.wlchen.sample"
+    namespace = "com.wlchen.sample.hook.lib"
     compileSdk = 33
 
     defaultConfig {

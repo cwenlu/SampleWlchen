@@ -3,6 +3,7 @@ package com.wlchen.sample
 import android.os.SystemClock
 import android.util.Log
 import android.view.View
+import com.wlchen.sample.hook.lib.R
 
 /**
  * 防止view多次点击

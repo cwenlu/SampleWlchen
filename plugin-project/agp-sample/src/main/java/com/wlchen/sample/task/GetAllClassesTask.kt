@@ -1,6 +1,10 @@
 package com.wlchen.sample.task
 
+import com.android.build.api.artifact.ScopedArtifact
+import com.android.build.api.variant.ScopedArtifacts
+import com.android.build.api.variant.Variant
 import org.gradle.api.DefaultTask
+import org.gradle.api.Project
 import org.gradle.api.file.Directory
 import org.gradle.api.file.RegularFile
 import org.gradle.api.provider.ListProperty
@@ -45,6 +49,19 @@ abstract class GetAllClassesTask : DefaultTask() {
             }
         }
     }
+}
+
+//LibraryPlugin 好像不能获取到数据
+fun getAllClassesTask(target: Project, variant: Variant) {
+    val taskProvider =
+        target.tasks.register(variant.name + "GetAllClasses", GetAllClassesTask::class.java)
+    variant.artifacts.forScope(ScopedArtifacts.Scope.ALL)
+        .use(taskProvider)
+        .toGet(
+            ScopedArtifact.CLASSES,
+            { it.allJars },
+            { it.allDirectories }
+        )
 }
 
 

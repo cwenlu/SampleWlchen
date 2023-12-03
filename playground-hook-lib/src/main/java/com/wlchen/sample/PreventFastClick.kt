@@ -3,6 +3,7 @@ package com.wlchen.sample
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import com.wlchen.sample.hook.lib.R
 import java.lang.ref.WeakReference
 
 /**
