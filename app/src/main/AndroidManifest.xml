@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         tools:targetApi="31"
         android:theme="@style/Theme.AppCompat">
+        <meta-data android:name="name" android:value="${MyName}"/>
         <activity android:name="com.wlchen.sample.MainActivity"
             android:exported="true">
             <intent-filter>

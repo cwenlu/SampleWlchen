@@ -10,13 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val run = Runnable { println("ss") }
-        run.run()
 
-        object :Runnable{
-            override fun run() {
-                println("aaaa")
-            }
-        }
     }
 }

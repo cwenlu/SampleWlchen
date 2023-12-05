@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.sample.wlchen"
+    namespace = "com.wlchen.sample"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.sample.wlchen"
+        applicationId = "com.wlchen.sample"
         minSdk = 21
         targetSdk = 33
         versionCode = 1

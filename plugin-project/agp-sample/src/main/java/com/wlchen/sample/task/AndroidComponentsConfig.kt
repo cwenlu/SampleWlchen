@@ -26,6 +26,9 @@ fun androidComponentsConfig(androidComponents: AndroidComponentsExtension<*, *, 
         //生成res values 数据
         it.resValues.put(it.makeResValueKey("string","VariantName"), ResValue(it.name,"Variant Name"))
         it.resValues.put(it.makeResValueKey("color","black"), ResValue("#000000","black"))
+
+        //设置
+        it.manifestPlaceholders.put("MyName","wlchen")
     }
     androidComponents.finalizeDsl { extension ->
         extension.defaultConfig {

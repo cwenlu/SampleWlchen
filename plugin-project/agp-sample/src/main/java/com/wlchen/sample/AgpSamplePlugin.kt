@@ -11,6 +11,7 @@ import com.wlchen.sample.task.androidComponentsConfig
 import com.wlchen.sample.task.getAarTask
 import com.wlchen.sample.task.getAllClassesTask
 import com.wlchen.sample.task.getApksTask
+import com.wlchen.sample.task.manifestReaderTask
 import com.wlchen.sample.task.provideCustomFieldValueTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -30,6 +31,7 @@ abstract class AgpSamplePlugin : Plugin<Project> {
                 getApksTask(target, it)
                 addCustomAsset(target, it)
                 addCustomFieldWithValueFromTask(target,it)
+                manifestReaderTask(target,it)
             }
         }
 
