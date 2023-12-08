@@ -7,6 +7,7 @@ import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
 import com.wlchen.sample.task.ProvideCustomFieldValueTask
 import com.wlchen.sample.task.addCustomAsset
+import com.wlchen.sample.task.addSourceAndShow
 import com.wlchen.sample.task.androidComponentsConfig
 import com.wlchen.sample.task.getAarTask
 import com.wlchen.sample.task.getAllClassesTask
@@ -30,8 +31,9 @@ abstract class AgpSamplePlugin : Plugin<Project> {
                 getAllClassesTask(target, it)
                 getApksTask(target, it)
                 addCustomAsset(target, it)
-                addCustomFieldWithValueFromTask(target,it)
-                manifestReaderTask(target,it)
+                addCustomFieldWithValueFromTask(target, it)
+                manifestReaderTask(target, it)
+                addSourceAndShow(target, it)
             }
         }
 
@@ -47,9 +49,14 @@ abstract class AgpSamplePlugin : Plugin<Project> {
     private fun addCustomFieldWithValueFromTask(target: Project, variant: Variant) {
         //可以在这直接定义task的，这里我们在外部定义，此处获取
         //target.tasks.named("provideCustomFieldValueTask",ProvideCustomFieldValueTask::class.java)
-        val gitVersionProvider = target.tasks.named<ProvideCustomFieldValueTask>("provideCustomFieldValueTask")
+        val gitVersionProvider =
+            target.tasks.named<ProvideCustomFieldValueTask>("provideCustomFieldValueTask")
         variant.buildConfigFields.put("gitVersion", gitVersionProvider.map {
-            BuildConfigField("String","\"${it.gitVersionOutputFile.get().asFile.readText()}\"","Git Version")
+            BuildConfigField(
+                "String",
+                "\"${it.gitVersionOutputFile.get().asFile.readText()}\"",
+                "Git Version"
+            )
         })
     }
 

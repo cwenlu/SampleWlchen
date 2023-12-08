@@ -10,6 +10,12 @@ import com.android.build.api.variant.ResValue
  */
 
 fun androidComponentsConfig(androidComponents: AndroidComponentsExtension<*, *, *>) {
+    //注册source文件夹, eg:main下和java平级的toml文件夹
+    //This sample shows how to add a new custom source folders to all source sets.
+    // The source folder will not be used by any AGP tasks (since we do no know about it),
+    // however, it can be used by plugins and tasks participating into the Variant API callbacks
+    //./gradlew :app:sourceSets
+    androidComponents.registerSourceType("toml")
     //高版本apg 默认不生成BuildConfig,需要配置启用
     //android.defaults.buildfeatures.buildconfig=true
     androidComponents.onVariants {
@@ -27,8 +33,9 @@ fun androidComponentsConfig(androidComponents: AndroidComponentsExtension<*, *, 
         it.resValues.put(it.makeResValueKey("string","VariantName"), ResValue(it.name,"Variant Name"))
         it.resValues.put(it.makeResValueKey("color","black"), ResValue("#000000","black"))
 
-        //设置
+        //设置ManifestPlaceholder
         it.manifestPlaceholders.put("MyName","wlchen")
+
     }
     androidComponents.finalizeDsl { extension ->
         extension.defaultConfig {
