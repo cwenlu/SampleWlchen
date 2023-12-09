@@ -46,9 +46,12 @@ abstract class DisplayAllSourcesTask : DefaultTask() {
     }
 }
 
-fun addSourceAndShow(target: Project, variant: Variant) {
+/**
+ * 添加自定义类型的源文件
+ */
+fun addSourceAndShow2(target: Project, variant: Variant) {
     val addSourceTaskProvider =
-        target.tasks.register("${variant.name}AddCustomSources", AddCustomSourcesTask::class.java) {
+        target.tasks.register("${variant.name}AddCustomSources2", AddCustomSourcesTask::class.java) {
             it.outputFolder.set(File(target.layout.buildDirectory.asFile.get(), "toml2/gen"))
         }
     //访问（并可能创建）可按其名称引用的自定义源类型的新 Flat。
@@ -60,7 +63,29 @@ fun addSourceAndShow(target: Project, variant: Variant) {
         it.addGeneratedSourceDirectory(addSourceTaskProvider, AddCustomSourcesTask::outputFolder)
     }
     println(variant.sources.getByName("toml2"))
-    target.tasks.register("${variant.name}DispplayAllsources", DisplayAllSourcesTask::class.java) {
+    target.tasks.register("${variant.name}DispplayAllsources2", DisplayAllSourcesTask::class.java) {
         it.sourceFolders.set(variant.sources.getByName("toml2").all)
+    }
+}
+
+/**
+ * 注册新的源文件类型同时添加新的源文件
+ */
+//AndroidComponentsConfig.kt 已经registerSourceType("toml")
+fun addSourceAndShow(target: Project, variant: Variant){
+    val addSourceTaskProvider =
+        target.tasks.register("${variant.name}AddCustomSources", AddCustomSourcesTask::class.java) {
+            it.outputFolder.set(File(target.layout.buildDirectory.asFile.get(), "toml/gen"))
+        }
+    //如果需要显示创建出目录，可以加这句
+    File(target.projectDir,"third_party/${variant.name}/toml").mkdirs()
+
+    variant.sources.getByName("toml").also {
+        it.addStaticSourceDirectory("third_party/${variant.name}/toml")
+        it.addGeneratedSourceDirectory(addSourceTaskProvider, AddCustomSourcesTask::outputFolder)
+    }
+    println(variant.sources.getByName("toml"))
+    target.tasks.register("${variant.name}DispplayAllsources", DisplayAllSourcesTask::class.java) {
+        it.sourceFolders.set(variant.sources.getByName("toml").all)
     }
 }

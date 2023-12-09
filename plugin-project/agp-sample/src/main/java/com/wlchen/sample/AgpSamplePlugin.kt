@@ -8,6 +8,7 @@ import com.android.build.gradle.LibraryPlugin
 import com.wlchen.sample.task.ProvideCustomFieldValueTask
 import com.wlchen.sample.task.addCustomAsset
 import com.wlchen.sample.task.addSourceAndShow
+import com.wlchen.sample.task.addSourceAndShow2
 import com.wlchen.sample.task.androidComponentsConfig
 import com.wlchen.sample.task.getAarTask
 import com.wlchen.sample.task.getAllClassesTask
@@ -33,7 +34,8 @@ abstract class AgpSamplePlugin : Plugin<Project> {
                 addCustomAsset(target, it)
                 addCustomFieldWithValueFromTask(target, it)
                 manifestReaderTask(target, it)
-                addSourceAndShow(target, it)
+                addSourceAndShow2(target, it)
+                addSourceAndShow(target,it)
             }
         }
 

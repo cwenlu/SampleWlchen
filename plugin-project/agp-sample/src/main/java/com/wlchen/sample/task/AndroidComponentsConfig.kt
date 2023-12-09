@@ -10,7 +10,7 @@ import com.android.build.api.variant.ResValue
  */
 
 fun androidComponentsConfig(androidComponents: AndroidComponentsExtension<*, *, *>) {
-    //注册source文件夹, eg:main下和java平级的toml文件夹
+    //注册新的源文件类型, eg:[app/src/main/toml],[app/src/debug/toml], [app/src/release/toml] 等目录可以被项目工程识别
     //This sample shows how to add a new custom source folders to all source sets.
     // The source folder will not be used by any AGP tasks (since we do no know about it),
     // however, it can be used by plugins and tasks participating into the Variant API callbacks
