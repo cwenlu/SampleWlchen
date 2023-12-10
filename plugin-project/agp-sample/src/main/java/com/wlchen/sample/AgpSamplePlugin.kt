@@ -15,6 +15,7 @@ import com.wlchen.sample.task.getAllClassesTask
 import com.wlchen.sample.task.getApksTask
 import com.wlchen.sample.task.manifestReaderTask
 import com.wlchen.sample.task.provideCustomFieldValueTask
+import com.wlchen.sample.task.sourceMergedTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.named
@@ -35,7 +36,8 @@ abstract class AgpSamplePlugin : Plugin<Project> {
                 addCustomFieldWithValueFromTask(target, it)
                 manifestReaderTask(target, it)
                 addSourceAndShow2(target, it)
-                addSourceAndShow(target,it)
+                addSourceAndShow(target, it)
+                sourceMergedTask(target, it)
             }
         }
 

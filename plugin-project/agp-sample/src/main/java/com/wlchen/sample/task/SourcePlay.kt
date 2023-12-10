@@ -6,6 +6,7 @@ import org.gradle.api.Project
 import org.gradle.api.file.Directory
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.ListProperty
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
@@ -51,7 +52,10 @@ abstract class DisplayAllSourcesTask : DefaultTask() {
  */
 fun addSourceAndShow2(target: Project, variant: Variant) {
     val addSourceTaskProvider =
-        target.tasks.register("${variant.name}AddCustomSources2", AddCustomSourcesTask::class.java) {
+        target.tasks.register(
+            "${variant.name}AddCustomSources2",
+            AddCustomSourcesTask::class.java
+        ) {
             it.outputFolder.set(File(target.layout.buildDirectory.asFile.get(), "toml2/gen"))
         }
     //访问（并可能创建）可按其名称引用的自定义源类型的新 Flat。
@@ -72,13 +76,13 @@ fun addSourceAndShow2(target: Project, variant: Variant) {
  * 注册新的源文件类型同时添加新的源文件
  */
 //AndroidComponentsConfig.kt 已经registerSourceType("toml")
-fun addSourceAndShow(target: Project, variant: Variant){
+fun addSourceAndShow(target: Project, variant: Variant) {
     val addSourceTaskProvider =
         target.tasks.register("${variant.name}AddCustomSources", AddCustomSourcesTask::class.java) {
             it.outputFolder.set(File(target.layout.buildDirectory.asFile.get(), "toml/gen"))
         }
     //如果需要显示创建出目录，可以加这句
-    File(target.projectDir,"third_party/${variant.name}/toml").mkdirs()
+    File(target.projectDir, "third_party/${variant.name}/toml").mkdirs()
 
     variant.sources.getByName("toml").also {
         it.addStaticSourceDirectory("third_party/${variant.name}/toml")
@@ -87,5 +91,50 @@ fun addSourceAndShow(target: Project, variant: Variant){
     println(variant.sources.getByName("toml"))
     target.tasks.register("${variant.name}DispplayAllsources", DisplayAllSourcesTask::class.java) {
         it.sourceFolders.set(variant.sources.getByName("toml").all)
+    }
+}
+
+
+//==============================合并多个source===========================================================================
+abstract class MergeTomlSources : DefaultTask() {
+    @get:InputFiles
+    abstract val sourceFolders: ListProperty<Directory>
+
+    @get:OutputDirectory
+    abstract val mergedFolder: DirectoryProperty
+
+    @TaskAction
+    fun taskAction() {
+        sourceFolders.get().forEach { directory ->
+            println("--> Got a Directory $directory")
+            directory.asFile.walk().forEach { sourceFile ->
+                println("Source: " + sourceFile.absolutePath)
+            }
+            println("<-- done")
+        }
+    }
+}
+
+abstract class ConsumeMergedToml: DefaultTask() {
+
+    @get:InputDirectory
+    abstract val mergedFolder: DirectoryProperty
+
+    @TaskAction
+    fun taskAction() {
+        println("Merged folder is " + mergedFolder.get().asFile)
+    }
+}
+
+fun sourceMergedTask(target: Project,variant: Variant){
+    val outFolder = target.layout.buildDirectory.dir("intermediates/${variant.name}/merged_toml")
+    val mergingTask = target.tasks.register("${variant.name}MergeTomlSources",MergeTomlSources::class.java) {
+        it.sourceFolders.set(variant.sources.getByName("toml").all)
+        it.mergedFolder.set(outFolder)
+    }
+
+
+    val consumingTask = target.tasks.register("${variant.name}ConsumeMergedToml",ConsumeMergedToml::class.java) {
+        it.mergedFolder.set(mergingTask.flatMap { it.mergedFolder })
     }
 }
