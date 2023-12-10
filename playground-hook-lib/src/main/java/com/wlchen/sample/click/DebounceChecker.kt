@@ -1,4 +1,4 @@
-package com.wlchen.sample
+package com.wlchen.sample.click
 
 import android.os.SystemClock
 

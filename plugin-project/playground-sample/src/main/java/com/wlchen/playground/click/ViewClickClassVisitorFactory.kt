@@ -184,7 +184,7 @@ private class ViewClickClassVisitor(
                 null
             )
         methodNode.visitCode()
-        //这里我们可以在调用原方法前插入代码
+        //todo 这里我们可以在调用原方法前插入代码
 
         // 此块 tag 具体可以参考: https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-6.html#jvms-6.5.invokedynamic
         //https://stackoverflow.com/questions/27488642/java-asm-opcodes-h-prefixed-mnemonics-e-g-opcodes-h-getfield-vs-opcodes-g
@@ -253,7 +253,7 @@ private class ViewClickClassVisitor(
                 add(
                     MethodInsnNode(
                         Opcodes.INVOKESTATIC,
-                        "com/wlchen/sample/PreventFastClick",
+                        "com/wlchen/sample/click/PreventFastClick",
                         "onClick",
                         "(Landroid/view/View;)V",
                         false
@@ -275,7 +275,7 @@ private class ViewClickClassVisitor(
                 add(
                     MethodInsnNode(
                         Opcodes.INVOKESTATIC,
-                        "com/wlchen/sample/PreventFastClick2",
+                        "com/wlchen/sample/click/PreventFastClick2",
                         "isFastClick",
                         "(Landroid/view/View;)Z",
                         false
