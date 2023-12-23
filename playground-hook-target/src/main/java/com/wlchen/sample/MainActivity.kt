@@ -1,5 +1,6 @@
 package com.wlchen.sample
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         //模拟lambda
         findViewById<Button>(R.id.btn).setOnClickListener {
             println("btn")
+            startActivity(Intent(this, ThreadActivity::class.java))
         }
         //模拟匿名类
         findViewById<Button>(R.id.btn2).setOnClickListener(object : OnClickListener {
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
 }
 
-object ClickDefine{
+object ClickDefine {
     fun onClickDefine(p0: View?) {
         println("btn4")
     }

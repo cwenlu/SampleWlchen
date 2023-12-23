@@ -4,6 +4,7 @@ import org.objectweb.asm.Handle
 import org.objectweb.asm.Type
 import org.objectweb.asm.tree.ClassNode
 import org.objectweb.asm.tree.InvokeDynamicInsnNode
+import org.objectweb.asm.tree.MethodInsnNode
 import org.objectweb.asm.tree.MethodNode
 
 /**
@@ -137,6 +138,25 @@ fun MethodNode.slotIndex(
 fun MethodNode.newSlotIndex(desc: String, type: Type): Int {
     val argumentTypes = Type.getArgumentTypes(desc)
     return slotIndex(argumentTypes.size) + type.size
+}
+
+fun MethodInsnNode.appendArgument(appendArgumentDesc: String) {
+    val type = Type.getMethodType(desc)
+    val argumentTypes = type.argumentTypes
+    val returnType = type.returnType
+    desc = "(" + argumentTypes.joinToString("") + appendArgumentDesc + ")" + returnType.descriptor
+}
+
+fun MethodInsnNode.appendArgument(argumentType: Class<*>) {
+    //appendArgument(Type.getType(argumentType).descriptor)
+
+    val type = Type.getMethodType(desc)
+    val argumentTypes = type.argumentTypes
+    val returnType = type.returnType
+    val newArgumentTypes = arrayOfNulls<Type>(argumentTypes.size + 1)
+    System.arraycopy(argumentTypes, 0, newArgumentTypes, 0, argumentTypes.size - 1 + 1)
+    newArgumentTypes[newArgumentTypes.size - 1] = Type.getType(argumentType)
+    desc = Type.getMethodDescriptor(returnType, *newArgumentTypes)
 }
 
 

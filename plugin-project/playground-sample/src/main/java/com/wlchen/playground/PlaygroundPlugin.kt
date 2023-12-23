@@ -7,10 +7,9 @@ import com.android.build.api.variant.Variant
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
 import com.wlchen.playground.click.ViewClickClassVisitorFactory
+import com.wlchen.playground.thread.NamedThreadClassVisitorFactory
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.file.RegularFile
-import org.gradle.api.provider.Provider
 
 /**
  * build/intermediates/classes 可以查看转换后的类
@@ -22,6 +21,7 @@ abstract class PlaygroundPlugin : Plugin<Project> {
                 target.extensions.getByType(AndroidComponentsExtension::class.java)
             //androidComponents.sdkComponents.bootClasspath
             androidComponents.onVariants {
+                handleThread(it)
                 handleViewClick(it)
                 it.instrumentation.setAsmFramesComputationMode(FramesComputationMode.COMPUTE_FRAMES_FOR_INSTRUMENTED_METHODS)
             }
@@ -32,9 +32,15 @@ abstract class PlaygroundPlugin : Plugin<Project> {
         variant.instrumentation.transformClassesWith(
             ViewClickClassVisitorFactory::class.java,
             InstrumentationScope.ALL
-        ){}
+        ) {}
     }
 
+    private fun handleThread(variant: Variant) {
+        variant.instrumentation.transformClassesWith(
+            NamedThreadClassVisitorFactory::class.java,
+            InstrumentationScope.ALL
+        ) {}
+    }
 
     private fun check(target: Project) {
         //这2种方式的判断必须要先注册对应插件再注册自己的才行,换了顺序就不行
