@@ -18,4 +18,8 @@ dependencies {
     implementation(libs.ow2.asm)
     implementation(libs.asm.commons)
     implementation(libs.asm.util)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlin.stdlib.common)
+
 }
